@@ -18,51 +18,51 @@ app.get("/", (req, res) => {
   res.send("Exploring Bangladesh Backend Running!");
 });
 
-// GET All Services
-app.get("/services", async (req, res) => {
+// GET All Packages
+app.get("/packages", async (req, res) => {
   try {
     const db = await connectToDatabase();
-    const services = await db.collection("users").find({}).toArray();
-    res.send(services);
+    const packages = await db.collection("packages").find({}).toArray();
+    res.send(packages);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Failed to fetch services");
+    res.status(500).send("Failed to fetch packages");
   }
 });
 
-// GET Single Service by ID
-app.get("/services/:id", async (req, res) => {
+// GET Single Package by ID
+app.get("/packages/:id", async (req, res) => {
   try {
     const db = await connectToDatabase();
-    const service = await db.collection("users").findOne({ _id: ObjectId(req.params.id) });
-    res.json(service);
+    const package = await db.collection("packages").findOne({ _id: ObjectId(req.params.id) });
+    res.json(package);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Failed to fetch service");
+    res.status(500).send("Failed to fetch package");
   }
 });
 
-// POST New Service
-app.post("/services", async (req, res) => {
+// POST New Package
+app.post("/packages", async (req, res) => {
   try {
     const db = await connectToDatabase();
-    const result = await db.collection("users").insertOne(req.body);
+    const result = await db.collection("packages").insertOne(req.body);
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Failed to add service");
+    res.status(500).send("Failed to add package");
   }
 });
 
-// DELETE Service
-app.delete("/services/:id", async (req, res) => {
+// DELETE Package
+app.delete("/packages/:id", async (req, res) => {
   try {
     const db = await connectToDatabase();
-    const result = await db.collection("users").deleteOne({ _id: ObjectId(req.params.id) });
+    const result = await db.collection("packages").deleteOne({ _id: ObjectId(req.params.id) });
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Failed to delete service");
+    res.status(500).send("Failed to delete package");
   }
 });
 
