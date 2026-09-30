@@ -53,11 +53,26 @@ async function deleteBookingById(req, res) {
 
 // Legacy: DELETE /myPackages/:email deleted ONE booking by email.
 // Kept for backward compat but prefer DELETE /api/bookings/:id.
-async function deleteOneBookingByEmail(req, res) {
-  const { email } = req.params;
-  const result = await (await getBookingsCollection()).deleteOne({ email });
+// SMART version: old frontend actually calls DELETE /myPackages/:bookingId
+// (booking _id, e.g. 617eb4f4344f6035d4b923c9), NOT the email.
+// So accept BOTH: if param looks like an ObjectId -> delete by _id,
+// otherwise delete by email.
+async function deleteLegacyMyPackage(req, res) {
+  const { email: param } = req.params;
+  if (!param) {
+    return res.status(400).json({ success: false, message: "Booking id or email is required" });
+  }
+  const col = await getBookingsCollection();
+
+  let result;
+  if (isValidObjectId(param)) {
+    result = await col.deleteOne({ _id: toObjectId(param) });
+  } else {
+    result = await col.deleteOne({ email: param });
+  }
+
   if (result.deletedCount === 0) {
-    return res.status(404).json({ success: false, message: "No booking found for this email" });
+    return res.status(404).json({ success: false, message: "No booking found" });
   }
   res.json({ success: true, data: result });
 }
@@ -67,5 +82,7 @@ module.exports = {
   getAllBookings,
   getBookingsByEmail,
   deleteBookingById,
-  deleteOneBookingByEmail,
+  deleteLegacyMyPackage,
+  // alias kept so old imports don't break
+  deleteOneBookingByEmail: deleteLegacyMyPackage,
 };
