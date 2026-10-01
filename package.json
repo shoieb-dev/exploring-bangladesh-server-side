@@ -25,6 +25,7 @@
     "dotenv": "^16.4.5",
     "exploring-bangladesh-server": "file:",
     "express": "^4.19.2",
+    "firebase-admin": "^12.7.0",
     "helmet": "^7.1.0",
     "mongodb": "^6.8.0",
     "morgan": "^1.10.0"

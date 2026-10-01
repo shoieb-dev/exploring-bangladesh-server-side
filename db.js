@@ -37,6 +37,7 @@ function getCollections(db) {
   return {
     packages: db.collection("packages"),
     bookings: db.collection("bookings"),
+    users: db.collection("users"),
   };
 }
 
