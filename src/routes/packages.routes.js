@@ -7,6 +7,8 @@ const router = express.Router();
 router.get("/", asyncHandler(controller.getAllPackages));
 router.get("/:id", asyncHandler(controller.getPackageById));
 router.post("/", asyncHandler(controller.createPackage));
+router.put("/:id", asyncHandler(controller.updatePackage));
+router.patch("/:id", asyncHandler(controller.updatePackage));
 router.delete("/:id", asyncHandler(controller.deletePackage));
 
 module.exports = router;

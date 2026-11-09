@@ -36,6 +36,31 @@ async function createPackage(req, res) {
   res.status(201).json({ success: true, data: result });
 }
 
+async function updatePackage(req, res) {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) {
+    return res.status(400).json({ success: false, message: "Invalid package id" });
+  }
+  if (!req.body || typeof req.body !== "object" || Array.isArray(req.body)) {
+    return res.status(400).json({ success: false, message: "Package body is required" });
+  }
+
+  const { _id, createdAt, updatedAt, ...fields } = req.body;
+  if (Object.keys(fields).length === 0) {
+    return res.status(400).json({ success: false, message: "At least one package field is required" });
+  }
+
+  const pkg = await (await getPackagesCollection()).findOneAndUpdate(
+    { _id: toObjectId(id) },
+    { $set: { ...fields, updatedAt: new Date() } },
+    { returnDocument: "after" }
+  );
+  if (!pkg) {
+    return res.status(404).json({ success: false, message: "Package not found" });
+  }
+  res.json({ success: true, data: pkg });
+}
+
 async function deletePackage(req, res) {
   const { id } = req.params;
   if (!isValidObjectId(id)) {
@@ -52,5 +77,6 @@ module.exports = {
   getAllPackages,
   getPackageById,
   createPackage,
+  updatePackage,
   deletePackage,
 };

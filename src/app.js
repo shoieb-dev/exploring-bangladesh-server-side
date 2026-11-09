@@ -31,7 +31,7 @@ function createApp() {
   app.use("/api", apiRoutes);
 
   // Backward-compatible top-level routes (old frontend):
-  //   GET /packages, GET /packages/:id, POST /packages, DELETE /packages/:id
+  //   GET /packages, GET /packages/:id, POST /packages, PUT/PATCH /packages/:id, DELETE /packages/:id
   //   POST /bookings
   const packagesRoutes = require("./routes/packages.routes");
   const bookingsRoutes = require("./routes/bookings.routes");
