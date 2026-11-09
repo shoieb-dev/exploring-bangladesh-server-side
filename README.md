@@ -72,6 +72,7 @@ Base URL locally: http://localhost:5000
 | GET    | `/api/packages`              | List all packages (also GET /packages legacy) |
 | GET    | `/api/packages/:id`          | Single package (also /packages/:id)           |
 | POST   | `/api/packages`              | Create package (also POST /packages)          |
+| PUT/PATCH | `/api/packages/:id`         | Update package fields (also PUT/PATCH /packages/:id) |
 | DELETE | `/api/packages/:id`          | Delete package (also DELETE /packages/:id)    |
 | POST   | `/api/bookings`              | Create booking (also POST /bookings)          |
 | GET    | `/api/bookings?email=`       | List/filter bookings                          |
